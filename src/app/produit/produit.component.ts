@@ -12,23 +12,22 @@ import {map} from 'rxjs/operators';
   styleUrls: ['./produit.component.css']
 })
 export class ProduitComponent implements OnInit {
-  produits: any;
+  produits: Produit[];
   produitForm: FormGroup;
-
+  operation = 'add';
+  produit: Produit;
   constructor(private produitService: ProduitServiceService,           private fb: FormBuilder
   ) {
     this.loadProduits();
-    this.produitForm = this.fb.group({
-      ref: ['', Validators.required],
-      quantite: '',
-      prixunitaire : ''
+    this.initProduit();
 
-    });
+
   }
 
   ngOnInit(): void {
     this.loadProduits();
-
+    this.initProduit();
+    this.initproduitForm();
   }
 
   loadProduits() {
@@ -39,7 +38,57 @@ export class ProduitComponent implements OnInit {
      }) ;
   }
 
+  AddProduit() {
+    console.log('add');
+    this.produitService.addProduit(this.produit).subscribe(res => {
+    this.loadProduits();
+    this.reset();
 
+    }, error1 => {
+      console.log('error');
+    });
+  }
+
+  EditerProduit() {
+    console.log('editer');
+    this.produitService.updateProduit(this.produit).subscribe(res => {
+      this.loadProduits();
+      this.reset();
+    }, error1 => {
+      console.log('error');
+    });
+  }
+
+initProduit() {
+  this.produit = new Produit();
+
+}
+  initproduitForm() {
+    this.produitForm = this.fb.group({
+
+      ref: ['', Validators.required],
+      quantite: '',
+      prixunitaire : ''
+
+    });
+  }
+  remove(ref: string) {
+    if ( confirm('Vous êtes sur de la suppression') ) {
+      console.log(ref);
+      this.produitService.deleteProduit(ref).subscribe(res => {
+        this.loadProduits();
+      }, error1 => {
+        console.log('error');
+      });
+    }
+  }
+
+
+  reset() {
+    this.operation = 'add';
+    this.initProduit();
+    this.initproduitForm();
+  }
   /*
   constructor(private produitservice: ProduitMockServiceService
   ,           private fb: FormBuilder

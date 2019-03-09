@@ -20,7 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     DashboardComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule
+    BrowserModule, AppRoutingModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}), HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
