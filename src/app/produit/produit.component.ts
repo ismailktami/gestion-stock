@@ -5,6 +5,7 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {ProduitServiceService} from '../services/produit-service.service';
 import {pipe} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-produit',
@@ -16,15 +17,15 @@ export class ProduitComponent implements OnInit {
   produitForm: FormGroup;
   operation = 'add';
   produit: Produit;
-  constructor(private produitService: ProduitServiceService,           private fb: FormBuilder
+  constructor(private produitService: ProduitServiceService,
+              private fb: FormBuilder , private route: ActivatedRoute
   ) {
-    this.loadProduits();
-    this.initProduit();
 
 
   }
 
   ngOnInit(): void {
+  //  this.produits = this.route.snapshot.data.produits;
     this.loadProduits();
     this.initProduit();
     this.initproduitForm();
@@ -72,11 +73,12 @@ initProduit() {
 
     });
   }
-  remove(ref: string) {
+  remove(ref: number) {
     if ( confirm('Vous êtes sur de la suppression') ) {
       console.log(ref);
       this.produitService.deleteProduit(ref).subscribe(res => {
         this.loadProduits();
+        this.reset();
       }, error1 => {
         console.log('error');
       });

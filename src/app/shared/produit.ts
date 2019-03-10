@@ -1,5 +1,5 @@
 export class Produit {
-constructor(public ref?: string, public quantite?: number, public prixUnitaire?: number
+constructor(public id?: number , public ref?: string, public quantite?: number, public prixUnitaire?: number
             ) {
 
 }

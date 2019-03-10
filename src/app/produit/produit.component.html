@@ -27,7 +27,7 @@
             <tr *ngFor="let p of produits">
               <td style="width:110px">
                 <button class="btn btn-outline-info fa fa-edit" (click)="operation='edit'; produit = p;"> </button>
-                <button class="btn btn-outline-danger fa fa-trash" (click)="remove(p.ref)"></button>
+                <button class="btn btn-outline-danger fa fa-trash" (click)="operation='remove';produit=p"></button>
               </td>
               <td class="hidden-xs">#</td>
               <td>{{p.ref}}</td>
@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="col-lg-5">
-      <div class="card">
+      <div class="card" *ngIf="operation != 'remove' ">
         <div class="card-header bg-info">
           {{operation=='add' ? 'Ajouter Produit' :operation=='edit' ? 'Editer Produit' : operation=='remove' ? 'Supprimer Produit':''}}
           </div>
@@ -76,6 +76,25 @@
 
       </form>
         </div>
+
+
       </div>
+
+      <div class="card" *ngIf="operation == 'remove' ">
+        <div class="card-header bg-info">
+          Remove Produit
+        </div>
+        <div class="card-body">
+          <p>Vous voulez supprimer le poduit dont le reference est :  </p>
+          <p>{{produit.ref}} </p>
+          <button class="btn bg-danger" (click)="remove(produit.id)">Supprimer</button>
+        </div>
+
+          </div>
+
+
+
+
+
     </div>
   </div></div>

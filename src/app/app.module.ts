@@ -9,6 +9,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {AppRoutingModule} from './app.routing.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ProduitResolver} from './produit/produit.resolver';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     BrowserModule, AppRoutingModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}), HttpClientModule
   ],
-  providers: [],
+  providers: [ProduitResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
