@@ -1,0 +1,40 @@
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100">
+      <form [formGroup]="loginform" (submit)="login()" class="login100-form validate-form" style="
+    padding-top: 100px; ">
+					<span class="login100-form-title p-b-34">
+						Account Login
+					</span>
+
+        <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+          <input id="first-name" class="input100" type="text"   formControlName="username" [ngModel]="credentials.username" placeholder="User name">
+          <span class="focus-input100"></span>
+        </div>
+        <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
+          <input class="input100" type="password" formControlName="password" [ngModel]="credentials.password"   placeholder="Password">
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="container-login100-form-btn">
+          <input type="submit" class="login100-form-btn bg-info"   value="Login"/>
+
+          </div>
+
+        <div class="w-full text-center p-t-27 p-b-239">
+						<span class="text-info">
+							Forgot
+						</span>
+
+          <a href="#" class="text-info">
+            User name / password?
+          </a>
+        </div>
+      </form>
+
+      <div class="login100-more" style="background-image: url('../../image.jpg');">
+
+      </div>
+    </div>
+  </div>
+</div>

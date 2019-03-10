@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Produit} from '../shared/produit';
 import {ProduitMockServiceService} from '../services/produit-mock-service.service';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, Form} from '@angular/forms';
 import {ProduitServiceService} from '../services/produit-service.service';
 import {pipe} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -15,8 +15,13 @@ import {ActivatedRoute} from '@angular/router';
 export class ProduitComponent implements OnInit {
   produits: Produit[];
   produitForm: FormGroup;
+  searchForm: FormGroup ;
   operation = 'add';
+  pages: any;
   produit: Produit;
+  page =  0;
+  pageContacts: any;
+  mc = '' ;
   constructor(private produitService: ProduitServiceService,
               private fb: FormBuilder , private route: ActivatedRoute
   ) {
@@ -26,7 +31,7 @@ export class ProduitComponent implements OnInit {
 
   ngOnInit(): void {
   //  this.produits = this.route.snapshot.data.produits;
-    this.loadProduits();
+    this.getPrduitsByMc();
     this.initProduit();
     this.initproduitForm();
   }
@@ -42,7 +47,7 @@ export class ProduitComponent implements OnInit {
   AddProduit() {
     console.log('add');
     this.produitService.addProduit(this.produit).subscribe(res => {
-    this.loadProduits();
+    this.getProduitsByPage();
     this.reset();
 
     }, error1 => {
@@ -53,7 +58,7 @@ export class ProduitComponent implements OnInit {
   EditerProduit() {
     console.log('editer');
     this.produitService.updateProduit(this.produit).subscribe(res => {
-      this.loadProduits();
+      this.getProduitsByPage();
       this.reset();
     }, error1 => {
       console.log('error');
@@ -72,17 +77,18 @@ initProduit() {
       prixunitaire : ''
 
     });
+    this.searchForm = this.fb.group({
+      mc : ''
+    });
   }
   remove(ref: number) {
-    if ( confirm('Vous êtes sur de la suppression') ) {
-      console.log(ref);
       this.produitService.deleteProduit(ref).subscribe(res => {
-        this.loadProduits();
+        this.getProduitsByPage();
         this.reset();
       }, error1 => {
         console.log('error');
       });
-    }
+
   }
 
 
@@ -91,24 +97,48 @@ initProduit() {
     this.initProduit();
     this.initproduitForm();
   }
-  /*
-  constructor(private produitservice: ProduitMockServiceService
-  ,           private fb: FormBuilder
-  ) {
 
-    this.produitForm = this.fb.group({
-      ref: ['', Validators.required],
-      quantite: '',
-      prixunitaire : ''
+ getProduitsByPage() {
+   this.produitService.getProduitsByPage(this.page).subscribe(data => {
+     this.pageContacts = data;
+     this.pages = new Array<number>(data.totalPages);
+   }, err => {
+     console.log('error data');
+   });
+ }
 
+
+  goToPage(i: number) {
+      this.page = i ;
+      this.getPrduitsByMc();
+    }
+
+  getPrduitsByMc() {
+       this.produitService.getPrduitsByMc(this.mc, this.page).subscribe(data => {
+       this.pageContacts = data;
+       this.pages = new Array<number>(data.totalPages);
+       this.mc = '';
+    }, err => {
+      console.log('error data');
     });
   }
 
-  ngOnInit() {
-    this.produits = this.produitservice.getProduits();
-
+  searchByMc() {
+      this.page = 0;
+      this.produitService.getPrduitsByMc(this.mc, this.page).subscribe(data => {
+      this.pageContacts = data;
+      this.pages = new Array<number>(data.totalPages);
+      this.mc = '';
+    }, err => {
+      console.log('error data');
+    });
   }
 
-  */
+
+  resetSearch(){
+  this.getPrduitsByMc();
+  }
+
+
 
 }

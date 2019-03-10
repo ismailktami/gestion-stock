@@ -10,7 +10,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {AppRoutingModule} from './app.routing.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ProduitResolver} from './produit/produit.resolver';
-
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,9 @@ import {ProduitResolver} from './produit/produit.resolver';
     NavbarComponent,
     ContentComponent,
     SidebarComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}), HttpClientModule

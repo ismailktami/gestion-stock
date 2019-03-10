@@ -1,2 +1,2 @@
-<app-navbar></app-navbar>
-<app-content></app-content>
+<router-outlet *ngIf=" appService.authenticated==false"></router-outlet>
+<app-content *ngIf=" appService.authenticated==true"></app-content>

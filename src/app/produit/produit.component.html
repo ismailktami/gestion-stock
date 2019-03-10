@@ -7,6 +7,20 @@
             <div class="col col-xs-6">
               <h3 class="panel-title ">Produits</h3>
             </div>
+            <div class=" col col-xs-6">
+              <form [formGroup]="searchForm" >
+              <div class="input-group">
+                  <input type="text" class="form-control"  formControlName="mc" [(ngModel)]="mc" placeholder="Search for...">
+                  <span class="input-group-btn">
+                  <button class="btn btn-info" type="button" (click)="searchByMc()" ><a class="fa fa-search"></a></button>
+                    <button class="btn bg-danger" type="button" (click)="resetSearch()" ><a class="fa fa-reply"></a></button>
+
+                  </span>
+            </div>
+              </form>
+
+            </div>
+
             <div class="col col-xs-6 text-right">
               <button type="button" class="btn btn-sm bg-info btn-create "  (click)="operation='add';initProduit();"><em class=" fa fa-plus-circle"></em>Ajouter</button>
             </div>
@@ -24,21 +38,29 @@
             </tr>
             </thead>
             <tbody id="myTable">
-            <tr *ngFor="let p of produits">
+            <tr *ngFor="let p of pageContacts.content">
               <td style="width:110px">
                 <button class="btn btn-outline-info fa fa-edit" (click)="operation='edit'; produit = p;"> </button>
                 <button class="btn btn-outline-danger fa fa-trash" (click)="operation='remove';produit=p"></button>
               </td>
-              <td class="hidden-xs">#</td>
+              <td class="hidden-xs">{{p.id}}</td>
               <td>{{p.ref}}</td>
               <td>{{p.quantite}}</td>
               <td>{{p.prixUnitaire}}</td>
             </tr>
             </tbody>
           </table>
+          <div class="container">
+            <ul class="nav nav-pills " >
+              <li  class="nav-item"  *ngFor="let p of pages ;let i=index" >
+                <a class="nav-link " [ngClass]="{'active':i==page}"   (click)="goToPage(i)" style="cursor: pointer">{{i}}</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="col-lg-5">
       <div class="card" *ngIf="operation != 'remove' ">
         <div class="card-header bg-info">
