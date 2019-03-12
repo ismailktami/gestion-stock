@@ -36,5 +36,8 @@ export class ProduitServiceService {
     return this.http.get('http://localhost:9999/api/produit/chercherByMc?mc=' + mc + '&size=5&page=' + page ) ;
     }
 
+    getImage(ref: number ): Observable<any> {
+      return this.http.get('http://localhost:9999/api/produit/image?ref=' + ref, {responseType: 'text'});
+    }
 
 }

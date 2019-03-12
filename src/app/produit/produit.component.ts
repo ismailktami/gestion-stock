@@ -6,6 +6,8 @@ import {ProduitServiceService} from '../services/produit-service.service';
 import {pipe} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-produit',
@@ -22,8 +24,12 @@ export class ProduitComponent implements OnInit {
   page =  0;
   pageContacts: any;
   mc = '' ;
+  image: any ;
+  srcData: SafeResourceUrl;
+
+
   constructor(private produitService: ProduitServiceService,
-              private fb: FormBuilder , private route: ActivatedRoute
+              private fb: FormBuilder , private route: ActivatedRoute , private sanitizer: DomSanitizer
   ) {
 
 
@@ -99,7 +105,7 @@ initProduit() {
   }
 
  getProduitsByPage() {
-   this.produitService.getProduitsByPage(this.page).subscribe(data => {
+   this.produitService.getProduitsByPage(this.page).subscribe((data: any) => {
      this.pageContacts = data;
      this.pages = new Array<number>(data.totalPages);
    }, err => {
@@ -114,7 +120,7 @@ initProduit() {
     }
 
   getPrduitsByMc() {
-       this.produitService.getPrduitsByMc(this.mc, this.page).subscribe(data => {
+       this.produitService.getPrduitsByMc(this.mc, this.page).subscribe((data: any) => {
        this.pageContacts = data;
        this.pages = new Array<number>(data.totalPages);
        this.mc = '';
@@ -125,7 +131,7 @@ initProduit() {
 
   searchByMc() {
       this.page = 0;
-      this.produitService.getPrduitsByMc(this.mc, this.page).subscribe(data => {
+      this.produitService.getPrduitsByMc(this.mc, this.page).subscribe((data: any) => {
       this.pageContacts = data;
       this.pages = new Array<number>(data.totalPages);
       this.mc = '';
@@ -135,10 +141,18 @@ initProduit() {
   }
 
 
-  resetSearch(){
+  resetSearch() {
   this.getPrduitsByMc();
   }
 
+  getImageProduct(ref: number) {
+    this.produitService.getImage(ref).subscribe((response: any ) => {
+  this.image = response;
+  this.srcData = this.sanitizer.bypassSecurityTrustResourceUrl(this.image);
+}, error1 => {
+      console.log(error1);
+    });
+  }
 
 
 }

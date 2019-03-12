@@ -1,6 +1,6 @@
 <div class="container" style="padding-top: 100px;">
   <div class="row">
-    <div class="col-lg-7 ">
+    <div class="col-lg-6 ">
       <div class="panel panel-default panel-table">
         <div class="panel-heading">
           <div class="row">
@@ -42,6 +42,8 @@
               <td style="width:110px">
                 <button class="btn btn-outline-info fa fa-edit" (click)="operation='edit'; produit = p;"> </button>
                 <button class="btn btn-outline-danger fa fa-trash" (click)="operation='remove';produit=p"></button>
+                <button class="btn btn-outline-info fa fa-send" (click)="getImageProduct(p.id)"></button>
+
               </td>
               <td class="hidden-xs">{{p.id}}</td>
               <td>{{p.ref}}</td>
@@ -50,6 +52,7 @@
             </tr>
             </tbody>
           </table>
+
           <div class="container">
             <ul class="nav nav-pills " >
               <li  class="nav-item"  *ngFor="let p of pages ;let i=index" >
@@ -57,11 +60,17 @@
               </li>
             </ul>
           </div>
+
         </div>
       </div>
+
     </div>
 
-    <div class="col-lg-5">
+    <div class="col-lg-3" *ngIf="image">
+      <img [src]="srcData" class="img-fluid img-thumbnail" style="width: 300px;height: 300px;">
+    </div>
+
+    <div class="col-lg-3">
       <div class="card" *ngIf="operation != 'remove' ">
         <div class="card-header bg-info">
           {{operation=='add' ? 'Ajouter Produit' :operation=='edit' ? 'Editer Produit' : operation=='remove' ? 'Supprimer Produit':''}}
@@ -102,6 +111,9 @@
 
       </div>
 
+
+
+
       <div class="card" *ngIf="operation == 'remove' ">
         <div class="card-header bg-info">
           Remove Produit
@@ -112,11 +124,12 @@
           <button class="btn bg-danger" (click)="remove(produit.id)">Supprimer</button>
         </div>
 
-          </div>
-
-
-
+      </div>
 
 
     </div>
-  </div></div>
+  </div>
+
+
+
+</div>
