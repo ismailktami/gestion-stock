@@ -7,6 +7,7 @@ import {ProduitResolver} from './produit/produit.resolver';
 import {LoginComponent} from './login/login.component';
 import {HomeComponent} from './home/home.component';
 import {ContentComponent} from './content/content.component';
+import {UpImageComponent} from './up-image/up-image.component';
 
 export const appRoutes: Routes = [
   {path: 'produit', component: ProduitComponent,  resolve: { produits : ProduitResolver} } ,
@@ -14,7 +15,8 @@ export const appRoutes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'content', component: ContentComponent}
+  {path: 'content', component: ContentComponent},
+  {path: 'aah', component: UpImageComponent}
 
 
 ];

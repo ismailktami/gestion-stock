@@ -5,7 +5,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   providedIn: 'root'
 })
 export class AppService {
-  authenticated = false;
+  authenticated = true;
   constructor() { }
   authenticate(credentials: any, callback: any) {
     this.authenticated = true;

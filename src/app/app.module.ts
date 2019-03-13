@@ -12,6 +12,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {ProduitResolver} from './produit/produit.resolver';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { UpImageComponent } from './up-image/up-image.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,8 @@ import { HomeComponent } from './home/home.component';
     SidebarComponent,
     DashboardComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    UpImageComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}), HttpClientModule
