@@ -40,4 +40,15 @@ export class ProduitServiceService {
       return this.http.get('http://localhost:9999/api/produit/image?ref=' + ref, {responseType: 'text'});
     }
 
+
+  addProduitWithFile(data: FormData ): Observable<any> {
+    return this.http.post(API_URLS.PRODUITS_URL_SAVE, data );
+  }
+
+
+  addProduitWithFileInServer(data: FormData ): Observable<any> {
+    return this.http.post(API_URLS.PRODUITS_URL_SAVE_IN_SERVER, data );
+  }
+
+
 }

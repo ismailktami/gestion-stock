@@ -12,7 +12,8 @@ export class UpImageComponent implements OnInit {
   ngOnInit() {
   }
   onSelectFile(event) {
-    console.log(event);
+
+
   }
 
 

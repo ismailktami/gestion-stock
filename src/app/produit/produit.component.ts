@@ -26,7 +26,7 @@ export class ProduitComponent implements OnInit {
   mc = '' ;
   image: any ;
   srcData: SafeResourceUrl;
-
+  profuitFile: any = File;
 
   constructor(private produitService: ProduitServiceService,
               private fb: FormBuilder , private route: ActivatedRoute , private sanitizer: DomSanitizer
@@ -50,16 +50,6 @@ export class ProduitComponent implements OnInit {
      }) ;
   }
 
-  AddProduit() {
-    console.log('add');
-    this.produitService.addProduit(this.produit).subscribe(res => {
-    this.getProduitsByPage();
-    this.reset();
-
-    }, error1 => {
-      console.log('error');
-    });
-  }
 
   EditerProduit() {
     console.log('editer');
@@ -80,7 +70,7 @@ initProduit() {
 
       ref: ['', Validators.required],
       quantite: '',
-      prixunitaire : ''
+      prixUnitaire : ''
 
     });
     this.searchForm = this.fb.group({
@@ -154,5 +144,36 @@ initProduit() {
     });
   }
 
+
+
+  AddProduit() {
+    const formdata: FormData = new FormData();
+    const produit = this.produitForm.value;
+    formdata.append('produit', JSON.stringify(produit) );
+    formdata.append('file', this.profuitFile);
+
+   /* this.produitService.addProduit(this.produit).subscribe(res => {
+      this.getProduitsByPage();
+      this.reset();
+
+    }, error1 => {
+      console.log('error');
+    });
+    */
+    this.produitService.addProduitWithFileInServer(formdata).subscribe(
+      (response) => {
+        console.log(response);
+        this.getProduitsByPage();
+        this.reset();
+      }
+    );
+
+  }
+
+
+  onSelectFile(event) {
+  const file = event.target.files[0];
+  this.profuitFile = file;
+  }
 
 }
