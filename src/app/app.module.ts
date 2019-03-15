@@ -13,6 +13,9 @@ import {ProduitResolver} from './produit/produit.resolver';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UpImageComponent } from './up-image/up-image.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +29,8 @@ import { UpImageComponent } from './up-image/up-image.component';
     UpImageComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}), HttpClientModule
+    BrowserModule, AppRoutingModule, ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
+    HttpClientModule , ImageCropperModule , NgbModule
   ],
   providers: [ProduitResolver],
   bootstrap: [AppComponent]

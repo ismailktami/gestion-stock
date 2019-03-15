@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {Produit} from '../shared/produit';
 import {ProduitMockServiceService} from '../services/produit-mock-service.service';
-import {FormGroup, FormBuilder, Validators, Form} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, Form, FormControl} from '@angular/forms';
 import {ProduitServiceService} from '../services/produit-service.service';
 import {pipe} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ImageCroppedEvent} from 'ngx-image-cropper';
 
 
 @Component({
@@ -27,12 +29,18 @@ export class ProduitComponent implements OnInit {
   image: any ;
   srcData: SafeResourceUrl;
   profuitFile: any = File;
-
+  productFormGroup: FormGroup;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  croppedBlob: Blob;
+  closeResult: string;
   constructor(private produitService: ProduitServiceService,
-              private fb: FormBuilder , private route: ActivatedRoute , private sanitizer: DomSanitizer
+              private fb: FormBuilder , private route: ActivatedRoute , private sanitizer: DomSanitizer ,  private modalService: NgbModal
   ) {
 
-
+    this.productFormGroup = new FormGroup({
+      name: new FormControl('')
+    });
   }
 
   ngOnInit(): void {
@@ -139,6 +147,7 @@ initProduit() {
     this.produitService.getImage(ref).subscribe((response: any ) => {
   this.image = response;
   this.srcData = this.sanitizer.bypassSecurityTrustResourceUrl(this.image);
+  return this.srcData;
 }, error1 => {
       console.log(error1);
     });
@@ -160,7 +169,7 @@ initProduit() {
       console.log('error');
     });
     */
-    this.produitService.addProduitWithFileInServer(formdata).subscribe(
+    this.produitService.addProduitWithFile(formdata).subscribe(
       (response) => {
         console.log(response);
         this.getProduitsByPage();
@@ -176,4 +185,36 @@ initProduit() {
   this.profuitFile = file;
   }
 
+  open(content) {
+    this.modalService.open(content, {size: 'lg', ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+
+  uploadFile(event) {
+    this.imageChangedEvent = event;
+    // Going away soon.. Bye bye..
+    // this.fileToUpload = event.target.files[0];
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    // Preview
+    this.croppedImage = event.base64;
+    console.log( this.croppedImage ) ;
+    this.croppedBlob = event.file;
+    console.log( this.croppedBlob ) ;
+
+  }
 }

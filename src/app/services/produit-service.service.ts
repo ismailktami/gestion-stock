@@ -35,7 +35,9 @@ export class ProduitServiceService {
     getPrduitsByMc(mc: string, page: number ) {
     return this.http.get('http://localhost:9999/api/produit/chercherByMc?mc=' + mc + '&size=5&page=' + page ) ;
     }
-
+  getPrduitsByMc2(mc: string, page: number ) {
+    return this.http.get('http://localhost:9999/api/produit/chercherByMc?mc=' + mc + '&size=10&page=' + page ) ;
+  }
     getImage(ref: number ): Observable<any> {
       return this.http.get('http://localhost:9999/api/produit/image?ref=' + ref, {responseType: 'text'});
     }
